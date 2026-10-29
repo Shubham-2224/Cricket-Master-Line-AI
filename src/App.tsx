@@ -14,9 +14,10 @@ import { DownloadCTA } from './components/sections/DownloadCTA';
 import { DownloadModal } from './components/common/DownloadModal';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { TermsConditions } from './pages/TermsConditions';
+import { Support } from './pages/Support';
 
 export function App() {
-  const [activeRoute, setActiveRoute] = useState<'home' | 'privacy' | 'terms'>('home');
+  const [activeRoute, setActiveRoute] = useState<'home' | 'privacy' | 'terms' | 'support'>('home');
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
 
   // Sync route with window pathname or hash
@@ -25,14 +26,21 @@ export function App() {
       const path = window.location.pathname.replace(/\/$/, '');
       const hash = window.location.hash;
 
-      if (path === '/privacy' || hash === '#privacy') {
+      if (path === '/support' || hash === '#support') {
+        setActiveRoute('support');
+        document.title = 'Support & Help Desk | Cricket Master Line AI';
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      } else if (path === '/privacy' || hash === '#privacy') {
         setActiveRoute('privacy');
+        document.title = 'Privacy Policy | Cricket Master Line AI';
         window.scrollTo({ top: 0, behavior: 'instant' });
       } else if (path === '/terms' || hash === '#terms') {
         setActiveRoute('terms');
+        document.title = 'Terms & Conditions | Cricket Master Line AI';
         window.scrollTo({ top: 0, behavior: 'instant' });
       } else {
         setActiveRoute('home');
+        document.title = 'Cricket Master Line AI | Cricket Scores & AI Analysis';
       }
     };
 
@@ -46,17 +54,25 @@ export function App() {
   }, []);
 
   const navigateTo = (route: string) => {
-    if (route === 'privacy') {
+    if (route === 'support') {
+      setActiveRoute('support');
+      window.history.pushState({}, '', '/support');
+      document.title = 'Support & Help Desk | Cricket Master Line AI';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (route === 'privacy') {
       setActiveRoute('privacy');
-      window.history.pushState({}, '', '#privacy');
+      window.history.pushState({}, '', '/privacy');
+      document.title = 'Privacy Policy | Cricket Master Line AI';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (route === 'terms') {
       setActiveRoute('terms');
-      window.history.pushState({}, '', '#terms');
+      window.history.pushState({}, '', '/terms');
+      document.title = 'Terms & Conditions | Cricket Master Line AI';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setActiveRoute('home');
-      window.history.pushState({}, '', window.location.pathname);
+      window.history.pushState({}, '', '/');
+      document.title = 'Cricket Master Line AI | Cricket Scores & AI Analysis';
     }
   };
 
@@ -92,6 +108,13 @@ export function App() {
 
       {/* Main Content Area */}
       <main className="flex-1">
+        {activeRoute === 'support' && (
+          <Support
+            onBack={() => navigateTo('home')}
+            onOpenDownload={handleOpenDownload}
+          />
+        )}
+
         {activeRoute === 'privacy' && (
           <PrivacyPolicy onBack={() => navigateTo('home')} />
         )}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Logo } from '../common/Logo';
 import { siteConfig } from '../../config/siteConfig';
-import { Download, Mail, Shield, FileText } from 'lucide-react';
+import { Download, Mail, Shield, FileText, HelpCircle } from 'lucide-react';
 
 interface FooterProps {
   onOpenDownload: () => void;
@@ -99,6 +99,14 @@ export const Footer: React.FC<FooterProps> = ({
                   FAQ
                 </button>
               </li>
+              <li>
+                <button
+                  onClick={(e) => handleLinkClick(e, 'support')}
+                  className="hover:text-white transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#E879F9]"
+                >
+                  Support
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -108,6 +116,15 @@ export const Footer: React.FC<FooterProps> = ({
               Legal &amp; Support
             </h4>
             <ul className="space-y-2 text-sm">
+              <li>
+                <button
+                  onClick={(e) => handleLinkClick(e, 'support')}
+                  className="hover:text-white transition-colors flex items-center gap-1.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#E879F9]"
+                >
+                  <HelpCircle className="w-3.5 h-3.5 text-[#E879F9]" />
+                  <span>Support &amp; Help Desk</span>
+                </button>
+              </li>
               <li>
                 <button
                   onClick={(e) => handleLinkClick(e, 'privacy')}

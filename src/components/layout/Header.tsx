@@ -30,10 +30,17 @@ export const Header = ({
     { label: 'AI Analysis', href: '#ai-analysis', route: 'home' },
     { label: 'About', href: '#about', route: 'home' },
     { label: 'FAQ', href: '#faq', route: 'home' },
+    { label: 'Support', href: '/support', route: 'support' },
   ];
 
   const handleNavClick = (href: string, targetRoute: string) => {
     setIsMobileMenuOpen(false);
+
+    if (targetRoute === 'support') {
+      onNavigate('support');
+      return;
+    }
+
     if (activeRoute !== targetRoute) {
       onNavigate(targetRoute);
       // Wait for route change then scroll
@@ -71,16 +78,23 @@ export const Header = ({
           </button>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8" aria-label="Main Navigation">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => handleNavClick(item.href, item.route)}
-                className="text-sm font-medium text-[#BDB4C9] hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E879F9] rounded px-2 py-1"
-              >
-                {item.label}
-              </button>
-            ))}
+          <nav className="hidden md:flex items-center gap-6" aria-label="Main Navigation">
+            {navItems.map((item) => {
+              const isItemActive = item.route === 'support' && activeRoute === 'support';
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => handleNavClick(item.href, item.route)}
+                  className={`text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E879F9] rounded px-2.5 py-1 ${
+                    isItemActive
+                      ? 'text-[#E879F9] bg-white/10 font-semibold'
+                      : 'text-[#BDB4C9] hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
           </nav>
 
           {/* Desktop CTA Button */}
@@ -121,15 +135,22 @@ export const Header = ({
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-x-0 top-[60px] bg-[#10091F]/98 backdrop-blur-xl border-b border-white/10 shadow-2xl transition-all p-6 space-y-4 animate-in slide-in-from-top-4">
           <nav className="flex flex-col space-y-2">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => handleNavClick(item.href, item.route)}
-                className="text-left py-2.5 px-3 rounded-lg text-base font-medium text-[#BDB4C9] hover:text-white hover:bg-white/5 transition-colors"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const isItemActive = item.route === 'support' && activeRoute === 'support';
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => handleNavClick(item.href, item.route)}
+                  className={`text-left py-2.5 px-3 rounded-lg text-base font-medium transition-colors ${
+                    isItemActive
+                      ? 'text-[#E879F9] bg-white/10 font-semibold'
+                      : 'text-[#BDB4C9] hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
           </nav>
 
           <div className="pt-4 border-t border-white/10">
